@@ -23,6 +23,23 @@ mcpup init [--import]
 
 Creates canonical config if missing. With `--import`, imports discovered client states into canonical registry.
 
+## setup
+
+```bash
+mcpup setup [--client <client> ...] [--server <name> ...] [--env KEY=VALUE ...] [--update]
+```
+
+Guided onboarding flow:
+- selects target clients
+- selects registry servers
+- collects required environment variables
+- enables selected servers on selected clients
+- reconciles client configs immediately
+
+Notes:
+- Interactive terminal: missing `--client` / `--server` values are prompted.
+- Non-interactive mode: at least one `--server` is required.
+
 ## add
 
 ```bash

@@ -64,7 +64,7 @@ func completeSuggestions(words []string) []string {
 	}
 
 	// Some shells omit the trailing empty token when completing after a space.
-	if current == "--client" || current == "--servers" {
+	if current == "--client" || current == "--servers" || current == "--server" {
 		prev = current
 	}
 
@@ -72,6 +72,12 @@ func completeSuggestions(words []string) []string {
 		return append([]string{}, store.SupportedClients...)
 	}
 	if prev == "--servers" {
+		return configuredServerNames()
+	}
+	if prev == "--server" {
+		if cmd == "setup" {
+			return registry.Names()
+		}
 		return configuredServerNames()
 	}
 
@@ -83,6 +89,9 @@ func completeSuggestions(words []string) []string {
 		return uniqueSortedStrings(append(configuredServerNames(), "--yes", "--dry-run", "--json", "--verbose"))
 	case "update":
 		return uniqueSortedStrings(append(configuredServerNames(), "--yes", "--dry-run", "--json", "--verbose"))
+	case "setup":
+		return uniqueSortedStrings(append(registry.Names(),
+			"--client", "--server", "--env", "--update", "--dry-run", "--json", "--verbose", "--yes"))
 	case "add":
 		return uniqueSortedStrings(append(registry.Names(),
 			"--command", "--arg", "--env", "--description", "--update"))

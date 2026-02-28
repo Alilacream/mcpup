@@ -41,25 +41,27 @@ func runWizard(in *os.File, out io.Writer) error {
 
 		var runErr error
 		switch action {
-		case 0: // Add Server
+		case 0: // Quick Setup
+			runErr = w.quickSetup()
+		case 1: // Add Server
 			runErr = w.addServer()
-		case 1: // Remove Server
+		case 2: // Remove Server
 			runErr = w.removeServer()
-		case 2: // Enable / Disable
+		case 3: // Enable / Disable
 			runErr = w.enableDisable()
-		case 3: // List Servers
+		case 4: // List Servers
 			runErr = w.listServers()
-		case 4: // Browse Registry
+		case 5: // Browse Registry
 			runErr = w.browseRegistry()
-		case 5: // Status
+		case 6: // Status
 			runErr = w.showStatus()
-		case 6: // Profiles
+		case 7: // Profiles
 			runErr = w.profileMenu()
-		case 7: // Doctor
+		case 8: // Doctor
 			runErr = w.runDoctor()
-		case 8: // Rollback
+		case 9: // Rollback
 			runErr = w.rollback()
-		case 9: // Exit
+		case 10: // Exit
 			fmt.Fprintf(out, "\n%s Goodbye!\n", output.Dim(output.SymbolArrow))
 			return nil
 		}
@@ -81,6 +83,7 @@ func (w *wizard) printBanner() {
 
 func (w *wizard) mainMenu() (int, error) {
 	return output.Select(w.in, w.out, "What would you like to do?", []string{
+		"Quick setup (recommended)",
 		"Add a server",
 		"Remove a server",
 		"Enable / Disable a server",
@@ -92,6 +95,10 @@ func (w *wizard) mainMenu() (int, error) {
 		"Rollback a client",
 		"Exit",
 	})
+}
+
+func (w *wizard) quickSetup() error {
+	return runSetup(GlobalOptions{}, nil, w.in, w.out)
 }
 
 // ─── Init ────────────────────────────────────────────────────────────────────

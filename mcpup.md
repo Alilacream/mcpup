@@ -25,6 +25,7 @@ mcpup is the config layer between your MCP servers and your AI clients. A single
 ## Core Features
 
 - **Add once, use everywhere** — register an MCP server once, deploy to any client
+- **Setup once, fast** — guided `mcpup setup` onboarding for clients + servers + required keys
 - **Toggle anything** — enable/disable any server for any client instantly
 - **Profiles** — save tool combinations ("coding", "writing", "debug") and switch with one command
 - **Per-client control** — give Cursor access to GitHub but not Slack, give Claude Code everything

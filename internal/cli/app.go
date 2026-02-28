@@ -57,6 +57,8 @@ func Run(args []string, in *os.File, out io.Writer, errOut io.Writer) error {
 	switch command {
 	case "init":
 		return runInit(opts, commandArgs, out)
+	case "setup":
+		return runSetup(opts, commandArgs, in, out)
 	case "add":
 		return runAdd(opts, commandArgs, out)
 	case "update":
@@ -1128,6 +1130,7 @@ func printRootHelp(out io.Writer) {
 	fmt.Fprintln(out)
 	fmt.Fprintf(out, "%s\n", output.Bold("Commands:"))
 	helpLine(out, "init", "Initialize canonical config")
+	helpLine(out, "setup", "Guided onboarding across clients")
 	helpLine(out, "add", "Add an MCP server definition")
 	helpLine(out, "update", "Refresh server definitions from registry")
 	helpLine(out, "remove", "Remove a server definition")
@@ -1331,7 +1334,7 @@ func currentWorkspace() string {
 }
 
 var knownCommands = []string{
-	"init", "add", "update", "remove", "enable", "disable",
+	"init", "setup", "add", "update", "remove", "enable", "disable",
 	"list", "status", "export", "import", "completion",
 	"profile", "clients", "doctor", "rollback", "registry",
 }

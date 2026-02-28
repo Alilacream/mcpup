@@ -82,6 +82,9 @@ The wizard walks you through everything with arrow-key navigation. First time? I
 ### CLI mode (for power users)
 
 ```bash
+# One-command onboarding (interactive)
+mcpup setup
+
 # Add from the built-in registry (knows the command, args, everything)
 mcpup add github --env GITHUB_TOKEN=ghp_xxx
 
@@ -190,6 +193,7 @@ mcpup writes directly to each client's native config file. No proxy, no middlewa
 
 - **One config, all clients** — define a server once, enable it on any client
 - **Interactive wizard** — arrow-key menu for everything, no commands to memorize
+- **Setup command** — guided onboarding to select clients, servers, and required keys
 - **Built-in registry** — 19 popular servers with pre-filled commands and args
 - **Update command** — refresh registry-backed server definitions with `mcpup update`
 - **Export / Import** — share server packs with `mcpup export` and `mcpup import`
@@ -210,6 +214,7 @@ mcpup writes directly to each client's native config file. No proxy, no middlewa
 |---------|-------------|
 | `mcpup` | Launch interactive wizard |
 | `mcpup init [--import]` | Initialize config (optionally import existing) |
+| `mcpup setup` | Guided onboarding across clients and servers |
 | `mcpup add <name>` | Add server (from registry or custom with `--command`) |
 | `mcpup update [name...]` | Refresh registry-backed server definitions |
 | `mcpup remove <name>` | Remove a server |
@@ -243,6 +248,9 @@ mcpup writes directly to each client's native config file. No proxy, no middlewa
 ### Add GitHub and enable on all clients
 
 ```bash
+mcpup setup --server github --env GITHUB_TOKEN=ghp_xxx
+
+# or manual mode:
 mcpup add github --env GITHUB_TOKEN=ghp_xxx
 mcpup enable github --client claude-code
 mcpup enable github --client cursor

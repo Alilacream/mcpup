@@ -1,5 +1,11 @@
 # Examples
 
+## Quick onboarding
+
+```bash
+mcpup setup
+```
+
 ## Add once, enable per client
 
 ```bash
