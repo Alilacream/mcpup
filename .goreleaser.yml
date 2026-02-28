@@ -37,7 +37,7 @@ archives:
 checksum:
   name_template: checksums.txt
 
-brews:
+homebrew:
   - repository:
       owner: mohammedsamin
       name: homebrew-tap
