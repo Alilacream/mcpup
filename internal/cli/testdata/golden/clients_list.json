@@ -11,7 +11,12 @@
       "opencode",
       "windsurf",
       "zed",
-      "continue"
+      "continue",
+      "vscode",
+      "cline",
+      "roo-code",
+      "amazon-q",
+      "gemini"
     ]
   }
 }

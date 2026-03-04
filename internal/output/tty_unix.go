@@ -8,9 +8,22 @@ import (
 )
 
 func isTerminal(fd uintptr) bool {
+	_, _, ok := terminalSize(fd)
+	return ok
+}
+
+func terminalSize(fd uintptr) (rows, cols int, ok bool) {
 	var wsz [4]uint16
 	_, _, err := syscall.Syscall(syscall.SYS_IOCTL, fd, syscall.TIOCGWINSZ, uintptr(unsafe.Pointer(&wsz[0])))
-	return err == 0
+	if err != 0 {
+		return 0, 0, false
+	}
+	rows = int(wsz[0])
+	cols = int(wsz[1])
+	if rows <= 0 || cols <= 0 {
+		return 0, 0, false
+	}
+	return rows, cols, true
 }
 
 func enableRawMode(fd int) (restore func(), err error) {

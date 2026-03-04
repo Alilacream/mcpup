@@ -29,6 +29,11 @@ var supportedClientSet = map[string]struct{}{
 	"windsurf":       {},
 	"zed":            {},
 	"continue":       {},
+	"vscode":         {},
+	"cline":          {},
+	"roo-code":       {},
+	"amazon-q":       {},
+	"gemini":         {},
 }
 
 // EnvValueMode tells whether an env value is a literal string or an env reference.

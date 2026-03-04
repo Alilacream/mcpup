@@ -118,7 +118,7 @@ mcpup rollback --client cursor
 
 ## Built-in Server Registry
 
-19 popular MCP servers ready to install — no need to look up package names or commands:
+97 curated MCP servers ready to install — no need to look up package names or commands:
 
 ```bash
 mcpup registry
@@ -198,7 +198,7 @@ mcpup writes directly to each client's native config file. No proxy, no middlewa
 - **HTTP/SSE transport** — manage remote MCP servers via URL, not just local commands
 - **Interactive wizard** — arrow-key menu for everything, no commands to memorize
 - **Setup command** — guided onboarding to select clients, servers, and required keys
-- **Built-in registry** — 19 popular servers with pre-filled commands and args
+- **Built-in registry** — 97 curated servers with pre-filled commands and args
 - **Update command** — refresh registry-backed server definitions with `mcpup update`
 - **Export / Import** — share server packs with `mcpup export` and `mcpup import`
 - **Profiles** — switch between "work", "personal", "debug" setups in one command
@@ -315,7 +315,7 @@ mcpup rollback --client cursor
 cmd/mcpup/          → entry point
 internal/
   cli/              → command routing + interactive wizard
-  registry/         → built-in server catalog (19 servers)
+  registry/         → built-in server catalog (97 servers)
   store/            → config read/write with schema validation
   planner/          → diff engine (current state → desired state)
   core/             → reconciler (backup → write → validate → rollback)

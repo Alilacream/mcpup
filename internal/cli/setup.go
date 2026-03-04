@@ -207,7 +207,7 @@ func pickSetupClients(in *os.File, out io.Writer, reconciler *core.Reconciler, w
 		preSelected = nil
 	}
 
-	indices, err := output.MultiSelect(in, out, "Select clients to configure:", store.SupportedClients, preSelected)
+	indices, err := output.SearchMultiSelect(in, out, "Select clients to configure:", store.SupportedClients, preSelected)
 	if err != nil {
 		return nil, err
 	}
@@ -226,10 +226,10 @@ func pickSetupServers(in *os.File, out io.Writer) ([]string, error) {
 	templates := registry.All()
 	options := make([]string, len(templates))
 	for i, t := range templates {
-		options[i] = fmt.Sprintf("%-18s %s", t.Name, output.Dim(t.Description))
+		options[i] = formatSetupRegistryOption(t)
 	}
 
-	indices, err := output.MultiSelect(in, out, "Select servers to install:", options, nil)
+	indices, err := output.SearchMultiSelect(in, out, "Select servers to install:", options, nil)
 	if err != nil {
 		return nil, err
 	}

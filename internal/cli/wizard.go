@@ -76,9 +76,14 @@ func runWizard(in *os.File, out io.Writer) error {
 
 func (w *wizard) printBanner() {
 	fmt.Fprintln(w.out)
-	fmt.Fprintf(w.out, "  %s  %s\n",
-		output.Bold(output.Cyan("mcpup")),
-		output.Dim("MCP configuration manager"))
+	for _, line := range []string{
+		"  ┌┬┐┌─┐┌─┐┬ ┬┌─┐",
+		"  ││││  ├─┘│ │├─┘",
+		"  ┴ ┴└─┘┴  └─┘┴  ",
+	} {
+		fmt.Fprintln(w.out, output.Bold(output.Cyan(line)))
+	}
+	fmt.Fprintf(w.out, "  %s\n", output.Dim("MCP configuration manager"))
 	fmt.Fprintln(w.out)
 }
 
@@ -172,18 +177,26 @@ func (w *wizard) addServer() error {
 }
 
 func (w *wizard) addFromRegistry() error {
-	templates := registry.All()
-	options := make([]string, len(templates))
-	for i, t := range templates {
-		options[i] = fmt.Sprintf("%-18s %s", t.Name, output.Dim(t.Description))
-	}
-
-	idx, err := output.Select(w.in, w.out, "Select a server:", options)
+	tmpl, err := w.selectRegistryTemplate(registry.All(), "Select a server (type to search):")
 	if err != nil {
 		return err
 	}
-	tmpl := templates[idx]
+	return w.addRegistryTemplate(tmpl)
+}
 
+func (w *wizard) selectRegistryTemplate(templates []registry.Template, question string) (registry.Template, error) {
+	options := make([]string, len(templates))
+	for i, t := range templates {
+		options[i] = formatRegistryOption(t)
+	}
+	idx, err := output.SearchSelect(w.in, w.out, question, options)
+	if err != nil {
+		return registry.Template{}, err
+	}
+	return templates[idx], nil
+}
+
+func (w *wizard) addRegistryTemplate(tmpl registry.Template) error {
 	// Collect required env vars.
 	envMap := map[string]string{}
 	for _, ev := range tmpl.EnvVars {
@@ -478,7 +491,7 @@ func (w *wizard) enableDisable() error {
 		action = "disable"
 	}
 
-	clientIndices, err := output.MultiSelect(w.in, w.out, "Select clients:", store.SupportedClients, nil)
+	clientIndices, err := output.SearchMultiSelect(w.in, w.out, "Select clients:", store.SupportedClients, nil)
 	if err != nil {
 		return err
 	}
@@ -490,7 +503,7 @@ func (w *wizard) enableDisable() error {
 	if toolMode {
 		toolOptions := wizardToolOptions(cfg, serverName, clientIndices)
 		if len(toolOptions) > 0 {
-			selected, selErr := output.MultiSelect(w.in, w.out, "Select tools:", toolOptions, nil)
+			selected, selErr := output.SearchMultiSelect(w.in, w.out, "Select tools:", toolOptions, nil)
 			if selErr != nil {
 				return selErr
 			}
@@ -576,7 +589,7 @@ func (w *wizard) enableDisable() error {
 }
 
 func (w *wizard) enableServerOnClients(serverName string) error {
-	clientIndices, err := output.MultiSelect(w.in, w.out, "Select clients to enable on:", store.SupportedClients, nil)
+	clientIndices, err := output.SearchMultiSelect(w.in, w.out, "Select clients to enable on:", store.SupportedClients, nil)
 	if err != nil {
 		return err
 	}
@@ -709,22 +722,19 @@ func (w *wizard) browseRegistry() error {
 		return nil
 	}
 
-	fmt.Fprintln(w.out)
-	tbl := &output.Table{Headers: []string{"NAME", "CATEGORY", "DESCRIPTION"}}
-	for _, t := range templates {
-		tbl.AddRow(t.Name, t.Category, t.Description)
+	tmpl, err := w.selectRegistryTemplate(templates, "Browse servers (type to search):")
+	if err != nil {
+		return err
 	}
-	tbl.Render(w.out)
 
-	addOne, err := output.Confirm(w.in, w.out, "Add one of these servers?", true)
+	addOne, err := output.Confirm(w.in, w.out, fmt.Sprintf("Add %q now?", tmpl.Name), true)
 	if err != nil {
 		return err
 	}
 	if !addOne {
 		return nil
 	}
-
-	return w.addFromRegistry()
+	return w.addRegistryTemplate(tmpl)
 }
 
 // ─── Status ──────────────────────────────────────────────────────────────────
@@ -815,7 +825,7 @@ func (w *wizard) profileCreate() error {
 		return fmt.Errorf("profile name cannot be empty")
 	}
 
-	selected, err := output.MultiSelect(w.in, w.out, "Select servers for this profile:", serverNames, nil)
+	selected, err := output.SearchMultiSelect(w.in, w.out, "Select servers for this profile:", serverNames, nil)
 	if err != nil {
 		return err
 	}
@@ -1146,6 +1156,16 @@ func clientTableHeaders() []string {
 			short = "ZED"
 		case "continue":
 			short = "CONTINUE"
+		case "vscode":
+			short = "VSCODE"
+		case "cline":
+			short = "CLINE"
+		case "roo-code":
+			short = "ROO"
+		case "amazon-q":
+			short = "AMAZONQ"
+		case "gemini":
+			short = "GEMINI"
 		}
 		headers = append(headers, short)
 	}

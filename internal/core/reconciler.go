@@ -2,12 +2,17 @@ package core
 
 import (
 	"github.com/mohammedsamin/mcpup/internal/adapters"
+	"github.com/mohammedsamin/mcpup/internal/adapters/amazonq"
 	"github.com/mohammedsamin/mcpup/internal/adapters/claudecode"
 	"github.com/mohammedsamin/mcpup/internal/adapters/claudedesktop"
+	"github.com/mohammedsamin/mcpup/internal/adapters/cline"
 	"github.com/mohammedsamin/mcpup/internal/adapters/codex"
 	"github.com/mohammedsamin/mcpup/internal/adapters/continuedev"
 	"github.com/mohammedsamin/mcpup/internal/adapters/cursor"
+	"github.com/mohammedsamin/mcpup/internal/adapters/gemini"
 	"github.com/mohammedsamin/mcpup/internal/adapters/opencode"
+	"github.com/mohammedsamin/mcpup/internal/adapters/roocode"
+	"github.com/mohammedsamin/mcpup/internal/adapters/vscode"
 	"github.com/mohammedsamin/mcpup/internal/adapters/windsurf"
 	"github.com/mohammedsamin/mcpup/internal/adapters/zed"
 	"github.com/mohammedsamin/mcpup/internal/backup"
@@ -52,6 +57,11 @@ func NewReconciler() (*Reconciler, error) {
 	registry.Register(windsurf.Adapter{})
 	registry.Register(zed.Adapter{})
 	registry.Register(continuedev.Adapter{})
+	registry.Register(vscode.Adapter{})
+	registry.Register(cline.Adapter{})
+	registry.Register(roocode.Adapter{})
+	registry.Register(amazonq.Adapter{})
+	registry.Register(gemini.Adapter{})
 
 	manager, err := backup.NewManager()
 	if err != nil {
