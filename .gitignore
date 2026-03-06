@@ -6,3 +6,5 @@ bin/
 *.dylib
 .DS_Store
 **/.DS_Store
+.gocache/
+.gomodcache/
