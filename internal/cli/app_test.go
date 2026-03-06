@@ -308,8 +308,15 @@ func setupTestEnv(t *testing.T) cliTestEnv {
 		t.Fatalf("mkdir home: %v", err)
 	}
 	configPath := filepath.Join(root, "config.json")
+	appData := filepath.Join(home, "AppData", "Roaming")
+	localAppData := filepath.Join(home, "AppData", "Local")
+	xdgConfig := filepath.Join(home, ".config")
 
 	t.Setenv("HOME", home)
+	t.Setenv("USERPROFILE", home)
+	t.Setenv("APPDATA", appData)
+	t.Setenv("LOCALAPPDATA", localAppData)
+	t.Setenv("XDG_CONFIG_HOME", xdgConfig)
 	t.Setenv("MCPUP_CONFIG", configPath)
 
 	return cliTestEnv{

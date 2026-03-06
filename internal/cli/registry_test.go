@@ -35,6 +35,7 @@ func TestAddUsesRegistryTemplateWhenCommandMissing(t *testing.T) {
 func TestAddRegistryTemplateRequiresEnv(t *testing.T) {
 	env := setupTestEnv(t)
 	runCLI(t, env, "init")
+	t.Setenv("GITHUB_TOKEN", "")
 
 	var stderr bytes.Buffer
 	err := Run([]string{"add", "github"}, nil, &bytes.Buffer{}, &stderr)

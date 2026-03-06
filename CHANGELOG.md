@@ -6,6 +6,14 @@ The format is inspired by Keep a Changelog and semantic versioning.
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-03-06
+
+### Fixed
+
+- Isolated registry tests from the GitHub Actions `GITHUB_TOKEN` environment so release hooks behave consistently.
+- Made CLI test home/config setup cross-platform by setting Windows-specific home and config environment variables.
+- Added `.gitattributes` line-ending normalization to keep Windows `gofmt` checks from rewriting the tree in CI.
+
 ## [0.4.0] - 2026-03-06
 
 ### Added
