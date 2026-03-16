@@ -7,7 +7,7 @@
 Define a server once. Enable it where you want. Keep unmanaged client entries intact.
 
 [![CI](https://github.com/mohammedsamin/mcpup/actions/workflows/ci.yml/badge.svg)](https://github.com/mohammedsamin/mcpup/actions/workflows/ci.yml)
-[![Release](https://github.com/mohammedsamin/mcpup/releases/latest/badge.svg)](https://github.com/mohammedsamin/mcpup/releases/latest)
+[![Release](https://img.shields.io/github/v/release/mohammedsamin/mcpup?label=Release&color=blue)](https://github.com/mohammedsamin/mcpup/releases/latest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mohammedsamin/mcpup)](https://goreportcard.com/report/github.com/mohammedsamin/mcpup)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
